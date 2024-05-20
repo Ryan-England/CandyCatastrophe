@@ -99,6 +99,10 @@
    <properties>
     <property name="water" type="bool" value="true"/>
    </properties>
+   <animation>
+    <frame tileid="53" duration="200"/>
+    <frame tileid="33" duration="200"/>
+   </animation>
   </tile>
   <tile id="60">
    <properties>
@@ -165,6 +169,12 @@
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="107">
+   <animation>
+    <frame tileid="107" duration="600"/>
+    <frame tileid="108" duration="200"/>
+   </animation>
+  </tile>
   <tile id="120">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -204,6 +214,12 @@
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
+  </tile>
+  <tile id="151">
+   <animation>
+    <frame tileid="151" duration="300"/>
+    <frame tileid="152" duration="100"/>
+   </animation>
   </tile>
  </tileset>
  <layer id="1" name="Ground-n-Platforms" width="48" height="25">

@@ -18,6 +18,10 @@ class Platformer extends Phaser.Scene {
         this.springCountdown = 0;
     }
 
+    preload() {
+        this.load.scenePlugin('AnimatedTiles', './lib/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
+    }
+
     create() {
         // Create a new tilemap game object which uses 18x18 pixel tiles, and is
         // 45 tiles wide and 25 tiles tall.
@@ -35,6 +39,8 @@ class Platformer extends Phaser.Scene {
         this.groundLayer.setCollisionByProperty({
             collides: true
         });
+
+        this.animatedTiles.init(this.map);
 
         // Find coins in the "Objects" layer in Phaser
         // Look for them by finding objects with the name "coin"
