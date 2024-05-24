@@ -25,19 +25,22 @@ class Platformer extends Phaser.Scene {
     create() {
         // Create a new tilemap game object which uses 18x18 pixel tiles, and is
         // 45 tiles wide and 25 tiles tall.
-        this.map = this.add.tilemap("platformer-level-1", 18, 18, 45, 25);
+        //this.map = this.add.tilemap("platformer-level-1", 18, 18, 45, 25);
+        this.map = this.add.tilemap("PlatLevel", 18, 18, 60, 20);
 
         // Add a tileset to the map
         // First parameter: name we gave the tileset in Tiled
         // Second parameter: key for the tilesheet (from this.load.image in Load.js)
-        this.tileset = this.map.addTilesetImage("kenny_tilemap_packed", "tilemap_tiles");
+        // this.tileset = this.map.addTilesetImage("kenny_tilemap_packed", "tilemap_tiles");
+        this.tileset = [this.map.addTilesetImage("plat_tilemap_packed", "plat_tilemap"), this.map.addTilesetImage("food_tilemap_packed", "food_tilemap")];
+        //this.tileset = this.map.addTilesetImage("food_tilemap_packed", "food_tilemap");
 
         // Create a layer
         this.groundLayer = this.map.createLayer("Ground-n-Platforms", this.tileset, 0, 0);
 
         // Make it collidable
         this.groundLayer.setCollisionByProperty({
-            collides: true
+            collide: true
         });
 
         this.animatedTiles.init(this.map);
@@ -72,8 +75,8 @@ class Platformer extends Phaser.Scene {
 
         this.testGroup = this.add.group(this.spawn);
 
-        console.log(this.testGroup.getFirstAlive().x);
-        console.log(this.testGroup.getFirstAlive().y);
+        // console.log(this.testGroup.getFirstAlive().x);
+        // console.log(this.testGroup.getFirstAlive().y);
 
         this.springs = this.map.createFromObjects("Objects", {
             name: "spring",
@@ -86,7 +89,7 @@ class Platformer extends Phaser.Scene {
         this.springGroup = this.add.group(this.springs);
 
         // set up player avatar
-        my.sprite.player = this.physics.add.sprite(this.testGroup.getFirstAlive().x, this.testGroup.getFirstAlive().y, "platformer_characters", "tile_0000.png");
+        my.sprite.player = this.physics.add.sprite(this.testGroup.getFirstAlive().x, this.testGroup.getFirstAlive().y, "platformer_characters", "tile_000.png");
         my.sprite.player.setCollideWorldBounds(true);
 
         // Enable collision handling
@@ -115,19 +118,41 @@ class Platformer extends Phaser.Scene {
 
         // movement vfx
         my.vfx.walking = this.add.particles(0, 0, "kenny-particles", {
-            frame: ['smoke_03.png', 'smoke_09.png'],
+            frame: ['smoke_03.png', 'smoke_06.png', 'smoke_08.png', 'star_04.png', 'star_06.png'],
             // TODO: Try: add random: true
             random: true,
             scale: {start: 0.03, end: 0.1},
             // TODO: Try: maxAliveParticles: 8,
             //maxAliveParticles: 8,
-            lifespan: 350,
+            lifespan: 300,
             // TODO: Try: gravityY: -400,
             gravityY: -400,
             alpha: {start: 1, end: 0.1}, 
+            frequency: 70
+            //collideBottom: true
+            //reserve: 40
         });
 
+        my.vfx.jumping = this.add.particles(0, 0, "kenny-particles", {
+            frame: ['smoke_03.png', 'star_04.png', 'star_06.png'],
+            // TODO: Try: add random: true
+            random: true,
+            scale: {start: 0.03, end: 0.1},
+            // TODO: Try: maxAliveParticles: 8,
+            //maxAliveParticles: 8,
+            lifespan: 300,
+            // TODO: Try: gravityY: -400,
+            gravityY: 400,
+            alpha: {start: 1, end: 0.1}, 
+            frequency: 150
+            //collideBottom: true
+            //reserve: 40
+        });
+
+
         my.vfx.walking.stop();
+
+        my.vfx.jumping.stop();
         
         // Camera code
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
@@ -189,9 +214,14 @@ class Platformer extends Phaser.Scene {
         // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
         if(!my.sprite.player.body.blocked.down) {
             my.sprite.player.anims.play('jump');
+            my.vfx.jumping.startFollow(my.sprite.player, my.sprite.player.displayWidth/2-10, my.sprite.player.displayHeight/2-5, false);
+        } else {
+            my.vfx.jumping.stop();
         }
         if(my.sprite.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY + this.jumpBoost);
+            my.vfx.jumping.start();
+            my.vfx.walking.stop();
         }
 
         if(Phaser.Input.Keyboard.JustDown(this.rKey)) {

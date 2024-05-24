@@ -13,8 +13,24 @@ class Load extends Phaser.Scene {
         this.load.image("tilemap_tiles", "tilemap_packed.png");                         // Packed tilemap
         this.load.tilemapTiledJSON("platformer-level-1", "platformer-level-1.tmj");   // Tilemap in JSON
 
+        // Load custom tilemap information
+        this.load.image("plat_tilemap", "plat_tilemap_packed.png");
+        this.load.image("food_tilemap", "food_tilemap_packed.png");
+        this.load.tilemapTiledJSON("PlatLevel", "PlatLevel.tmj");
+
         // Load the tilemap as a spritesheet
         this.load.spritesheet("tilemap_sheet", "tilemap_packed.png", {
+            frameWidth: 18,
+            frameHeight: 18
+        });
+
+        this.load.spritesheet("plat_sheet", "plat_tilemap_packed.png", {
+            frameWidth: 18,
+            frameHeight: 18
+        }
+        );
+
+        this.load.spritesheet("sweet_sheet", "food_tilemap_packed.png", {
             frameWidth: 18,
             frameHeight: 18
         });
@@ -33,8 +49,8 @@ class Load extends Phaser.Scene {
             key: 'walk',
             frames: this.anims.generateFrameNames('platformer_characters', {
                 prefix: "tile_",
-                start: 0,
-                end: 1,
+                start: 6,
+                end: 7,
                 suffix: ".png",
                 zeroPad: 4
             }),
@@ -46,7 +62,7 @@ class Load extends Phaser.Scene {
             key: 'idle',
             defaultTextureKey: "platformer_characters",
             frames: [
-                { frame: "tile_0000.png" }
+                { frame: "tile_0006.png" }
             ],
             repeat: -1
         });
@@ -55,7 +71,7 @@ class Load extends Phaser.Scene {
             key: 'jump',
             defaultTextureKey: "platformer_characters",
             frames: [
-                { frame: "tile_0001.png" }
+                { frame: "tile_0007.png" }
             ],
         });
 

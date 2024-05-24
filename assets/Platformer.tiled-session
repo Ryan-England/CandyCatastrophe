@@ -1,0 +1,81 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "/Users/ryan/Documents/Coding/CMPM120/CandyCatastrophe/assets/platformer-level-1.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "/Users/ryan/Documents/Coding/CMPM120/CandyCatastrophe/assets/platformer-level-1.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.76,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 173.01136363636368,
+                "y": 252.55681818181822
+            }
+        },
+        "/Users/ryan/Documents/Coding/CMPM120/CandyCatastrophe/assets/platformer-level-1.tmx#kenny_tilemap_packed": {
+            "scaleInDock": 1
+        },
+        "/Users/ryan/Documents/Coding/CMPM120/StarterPlatformer/assets/platformer-level-1.tmx": {
+            "scale": 0.8761,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 361.83084122817024,
+                "y": 151.80915420614082
+            }
+        },
+        "/Users/ryan/Documents/Coding/CMPM120/StarterPlatformer/assets/platformer-level-1.tmx#kenny_tilemap_packed": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "PlatLevel.tmx": {
+            "scale": 1.0916,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 539.1168926346647,
+                "y": 174.51447416636134
+            }
+        },
+        "PlatLevel.tmx#food_tilemap_packed": {
+            "scaleInDock": 1
+        },
+        "PlatLevel.tmx#plat_tilemap_packed": {
+            "scaleInDock": 1
+        }
+    },
+    "frame.defaultDuration": 100,
+    "last.exportedFilePath": "/Users/ryan/Documents/Coding/CMPM120/CandyCatastrophe/assets",
+    "last.imagePath": "/Users/ryan/Documents/Coding/CMPM120/DeliciousInPlatformer/assets",
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 18,
+    "map.tileWidth": 18,
+    "map.width": 60,
+    "openFiles": [
+        "PlatLevel.tmx",
+        "/Users/ryan/Documents/Coding/CMPM120/CandyCatastrophe/assets/platformer-level-1.tmx"
+    ],
+    "project": "Platformer.tiled-project",
+    "property.type": "bool",
+    "recentFiles": [
+        "PlatLevel.tmx",
+        "/Users/ryan/Documents/Coding/CMPM120/CandyCatastrophe/assets/platformer-level-1.tmx",
+        "/Users/ryan/Documents/Coding/CMPM120/StarterPlatformer/assets/platformer-level-1.tmx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 18,
+        "width": 18
+    }
+}
