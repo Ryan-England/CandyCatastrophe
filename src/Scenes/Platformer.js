@@ -183,7 +183,7 @@ class Platformer extends Phaser.Scene {
         });
 
         my.vfx.jumping = this.add.particles(0, 0, "kenny-particles", {
-            frame: ['smoke_03.png', 'star_04.png', 'star_06.png'],
+            frame: ['smoke_03.png', 'star_04.png', 'star_05.png', 'star_06.png'],
             // TODO: Try: add random: true
             random: true,
             scale: {start: 0.03, end: 0.1},
