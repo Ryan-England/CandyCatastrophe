@@ -6,16 +6,21 @@ class Platformer extends Phaser.Scene {
     init() {
         // variables and settings
         this.ACCELERATION = 400;
-        this.DRAG = 500;    // DRAG < ACCELERATION = icy slide
-        this.physics.world.gravity.y = 1500;
-        this.JUMP_VELOCITY = -600;
+        this.DRAG = 1200;    // DRAG < ACCELERATION = icy slide
+        this.physics.world.gravity.y = 2000;
+        this.JUMP_VELOCITY = -500;
         this.PARTICLE_VELOCITY = 50;
         this.SCALE = 2.0;
         this.SPRING_STRENGTH = -200;
         this.jumpBoost = 0;
+        this.numJumps = 2;
+        this.jumpsRemaining = 2;
 
         this.springTimer = 4;
         this.springCountdown = 0;
+
+        this.end_screen_y = 220;
+        this.end_game = false;
     }
 
     preload() {
@@ -26,7 +31,7 @@ class Platformer extends Phaser.Scene {
         // Create a new tilemap game object which uses 18x18 pixel tiles, and is
         // 45 tiles wide and 25 tiles tall.
         //this.map = this.add.tilemap("platformer-level-1", 18, 18, 45, 25);
-        this.map = this.add.tilemap("PlatLevel", 18, 18, 60, 20);
+        this.map = this.add.tilemap("PlatLevel", 18, 18, 120, 30);
 
         // Add a tileset to the map
         // First parameter: name we gave the tileset in Tiled
@@ -43,6 +48,12 @@ class Platformer extends Phaser.Scene {
             collide: true
         });
 
+        this.lockAndKeyLayer = this.map.createLayer("Removable-Platforms", this.tileset, 0,0);
+
+        this.lockAndKeyLayer.setCollisionByProperty({
+            collide: true
+        });
+
         this.animatedTiles.init(this.map);
 
         // Find coins in the "Objects" layer in Phaser
@@ -53,8 +64,8 @@ class Platformer extends Phaser.Scene {
 
         this.coins = this.map.createFromObjects("Objects", {
             name: "coin",
-            key: "tilemap_sheet",
-            frame: 151
+            key: "sweet_sheet",
+            frame: 14
         });
 
         // Since createFromObjects returns an array of regular Sprites, we need to convert 
@@ -75,6 +86,26 @@ class Platformer extends Phaser.Scene {
 
         this.testGroup = this.add.group(this.spawn);
 
+        this.goal = this.map.createFromObjects("Objects", {
+            name: "goal",
+            key: "tilemap_sheet",
+            frame: 67
+        });
+
+        this.physics.world.enable(this.goal, Phaser.Physics.Arcade.STATIC_BODY);
+
+        this.goalGroup = this.add.group(this.goal);
+
+        this.key = this.map.createFromObjects("Objects", {
+            name: "key",
+            key: "tilemap_sheet",
+            frame: 27
+        });
+
+        this.physics.world.enable(this.key, Phaser.Physics.Arcade.STATIC_BODY);
+
+        this.keyGroup = this.add.group(this.key);
+
         // console.log(this.testGroup.getFirstAlive().x);
         // console.log(this.testGroup.getFirstAlive().y);
 
@@ -89,8 +120,10 @@ class Platformer extends Phaser.Scene {
         this.springGroup = this.add.group(this.springs);
 
         // set up player avatar
-        my.sprite.player = this.physics.add.sprite(this.testGroup.getFirstAlive().x, this.testGroup.getFirstAlive().y, "platformer_characters", "tile_000.png");
-        my.sprite.player.setCollideWorldBounds(true);
+        my.sprite.player = this.physics.add.sprite(this.testGroup.getFirstAlive().x, this.testGroup.getFirstAlive().y, "platformer_characters", "tile_0006.png");
+        // my.sprite.player.setCollideWorldBounds(true);
+
+        my.sprite.end_screen = this.add.sprite(1800, -300, "end_screen");
 
         // Enable collision handling
         this.physics.add.collider(my.sprite.player, this.groundLayer);
@@ -103,6 +136,19 @@ class Platformer extends Phaser.Scene {
         this.physics.add.overlap(my.sprite.player, this.springGroup, (obj1, obj2) => {
             this.springCountdown = this.springTimer;
             this.jumpBoost = this.SPRING_STRENGTH;
+        });
+
+        this.physics.add.overlap(my.sprite.player, this.goalGroup, (obj1, obj2) => {
+            my.sprite.player.active = false;
+            my.sprite.player.body.setVelocityX(0);
+            obj2.destroy();
+            this.end_game = true;
+        });
+
+        this.physics.add.overlap(my.sprite.player, this.keyGroup, (obj1, obj2) => {
+            this.lockAndKeyLayer.active = false;
+            this.lockAndKeyLayer.visible = false;
+            obj2.destroy();
         });
 
         // set up Phaser-provided cursor key input
@@ -167,7 +213,7 @@ class Platformer extends Phaser.Scene {
             this.jumpBoost = 0;
         }
 
-        if(cursors.left.isDown) {
+        if(cursors.left.isDown && my.sprite.player.active) {
             my.sprite.player.setAccelerationX(-this.ACCELERATION);
             my.sprite.player.resetFlip();
             my.sprite.player.anims.play('walk', true);
@@ -184,7 +230,7 @@ class Platformer extends Phaser.Scene {
 
             }
 
-        } else if(cursors.right.isDown) {
+        } else if(cursors.right.isDown && my.sprite.player.active) {
             my.sprite.player.setAccelerationX(this.ACCELERATION);
             my.sprite.player.setFlip(true, false);
             my.sprite.player.anims.play('walk', true);
@@ -217,15 +263,22 @@ class Platformer extends Phaser.Scene {
             my.vfx.jumping.startFollow(my.sprite.player, my.sprite.player.displayWidth/2-10, my.sprite.player.displayHeight/2-5, false);
         } else {
             my.vfx.jumping.stop();
+            this.jumpsRemaining = this.numJumps;
         }
-        if(my.sprite.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
+        if(this.jumpsRemaining > 0 && Phaser.Input.Keyboard.JustDown(cursors.up)) {
+            this.jumpsRemaining--;
             my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY + this.jumpBoost);
             my.vfx.jumping.start();
             my.vfx.walking.stop();
+            this.sound.play("sfx_jump");
         }
 
         if(Phaser.Input.Keyboard.JustDown(this.rKey)) {
             this.scene.restart();
+        }
+
+        if (this.end_game && my.sprite.end_screen.y < this.end_screen_y) {
+            my.sprite.end_screen.y += 3;
         }
     }
 }

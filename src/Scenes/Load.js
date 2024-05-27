@@ -6,6 +6,8 @@ class Load extends Phaser.Scene {
     preload() {
         this.load.setPath("./assets/");
 
+        this.load.image("end_screen", "congratulations.png");
+
         // Load characters spritesheet
         this.load.atlas("platformer_characters", "tilemap-characters-packed.png", "tilemap-characters-packed.json");
 
@@ -34,6 +36,8 @@ class Load extends Phaser.Scene {
             frameWidth: 18,
             frameHeight: 18
         });
+
+        this.load.audio("sfx_jump", "question_003.ogg");
 
         // Oooh, fancy. A multi atlas is a texture atlas which has the textures spread
         // across multiple png files, so as to keep their size small for use with
