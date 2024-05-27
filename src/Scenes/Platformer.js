@@ -50,6 +50,7 @@ class Platformer extends Phaser.Scene {
 
         this.lockAndKeyLayer = this.map.createLayer("Removable-Platforms", this.tileset, 0,0);
 
+        // This should be working, I have no idea why it isn't
         this.lockAndKeyLayer.setCollisionByProperty({
             collide: true
         });
@@ -156,11 +157,13 @@ class Platformer extends Phaser.Scene {
 
         this.rKey = this.input.keyboard.addKey('R');
 
-        // debug key listener (assigned to D key)
-        this.input.keyboard.on('keydown-D', () => {
-            this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
-            this.physics.world.debugGraphic.clear()
-        }, this);
+        // // debug key listener (assigned to D key)
+        // this.input.keyboard.on('keydown-D', () => {
+        //     this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
+        //     this.physics.world.debugGraphic.clear()
+        // }, this);
+        this.physics.world.drawDebug = false;
+        this.physics.world.debugGraphic.clear()
 
         // movement vfx
         my.vfx.walking = this.add.particles(0, 0, "kenny-particles", {
@@ -261,6 +264,11 @@ class Platformer extends Phaser.Scene {
         if(!my.sprite.player.body.blocked.down) {
             my.sprite.player.anims.play('jump');
             my.vfx.jumping.startFollow(my.sprite.player, my.sprite.player.displayWidth/2-10, my.sprite.player.displayHeight/2-5, false);
+            if (my.sprite.player.y > 1000) {
+                my.sprite.player.x = this.testGroup.getFirstAlive().x;
+                my.sprite.player.y = this.testGroup.getFirstAlive().y;
+                my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY + this.jumpBoost);
+            }
         } else {
             my.vfx.jumping.stop();
             this.jumpsRemaining = this.numJumps;
