@@ -2040,18 +2040,6 @@
                         }]
                 }, 
                 {
-                 "animation":[
-                        {
-                         "duration":1200,
-                         "tileid":108
-                        }, 
-                        {
-                         "duration":400,
-                         "tileid":107
-                        }],
-                 "id":90
-                }, 
-                {
                  "id":93,
                  "properties":[
                         {
@@ -2077,30 +2065,6 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
-                {
-                 "animation":[
-                        {
-                         "duration":1200,
-                         "tileid":107
-                        }, 
-                        {
-                         "duration":400,
-                         "tileid":108
-                        }],
-                 "id":107
-                }, 
-                {
-                 "animation":[
-                        {
-                         "duration":1200,
-                         "tileid":108
-                        }, 
-                        {
-                         "duration":400,
-                         "tileid":107
-                        }],
-                 "id":108
                 }, 
                 {
                  "id":109,
