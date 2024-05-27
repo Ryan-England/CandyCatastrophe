@@ -719,6 +719,54 @@
                  "width":18,
                  "x":98.3394495412844,
                  "y":242.02752293578
+                }, 
+                {
+                 "gid":195,
+                 "height":18,
+                 "id":63,
+                 "name":"coin",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":18,
+                 "x":2033.20183486239,
+                 "y":161.293577981651
+                }, 
+                {
+                 "gid":195,
+                 "height":18,
+                 "id":64,
+                 "name":"coin",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":18,
+                 "x":2051.5504587156,
+                 "y":162.211009174312
+                }, 
+                {
+                 "gid":195,
+                 "height":18,
+                 "id":65,
+                 "name":"coin",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":18,
+                 "x":2069.89908256881,
+                 "y":161.293577981651
+                }, 
+                {
+                 "gid":195,
+                 "height":18,
+                 "id":66,
+                 "name":"coin",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":18,
+                 "x":2087.33027522936,
+                 "y":161.293577981651
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -768,7 +816,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":63,
+ "nextobjectid":67,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
